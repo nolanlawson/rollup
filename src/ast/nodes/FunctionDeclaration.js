@@ -2,6 +2,10 @@ import Node from '../Node.js';
 
 export default class FunctionDeclaration extends Node {
 	activate () {
+		console.log('FunctionDeclaration', this.id.name);
+		if (this.id.name === 'funkyFunc') {
+			console.trace()
+		}
 		if ( this.activated ) return;
 		this.activated = true;
 
@@ -33,6 +37,11 @@ export default class FunctionDeclaration extends Node {
 	}
 
 	initialise ( scope ) {
+		console.log('this.name', this.name);
+		console.log('this.id.name', this.id.name);
+		if (this.id.name === 'funkyFunc') {
+			console.trace()
+		}
 		this.name = this.id.name; // may be overridden by bundle.deconflict
 		scope.addDeclaration( this.name, this, false, false );
 

@@ -46,6 +46,10 @@ export default class Scope {
 	}
 
 	addDeclaration ( name, declaration, isVar, isParam ) {
+		console.log('5addDecl', name);
+		if (name === 'innerFunc') {
+			console.trace()
+		}
 		if ( isVar && this.isBlockScope ) {
 			this.parent.addDeclaration( name, declaration, isVar, isParam );
 		} else {
@@ -66,20 +70,36 @@ export default class Scope {
 	}
 
 	deshadow ( names ) {
+		debugger;
+		console.trace()
+		console.log('4names', Array.from(names.keys()))
+		console.log('4deshadowing', Array.from(keys( this.declarations )));
 		keys( this.declarations ).forEach( key => {
+			console.log('deshadowing', key);
+			if (key === 'problematicFunc') {
+				console.trace()
+			}
 			const declaration = this.declarations[ key ];
 
 			// we can disregard exports.foo etc
-			if ( declaration.exportName && declaration.isReassigned ) return;
+			if ( declaration.exportName && declaration.isReassigned ) {
+				console.log('disregarding because reassigned')
+				return;
+			}
 
 			const name = declaration.getName( true );
 			let deshadowed = name;
 
 			let i = 1;
 
+			console.log('beginning to deshadow')
+			console.log('names', Array.from(names.keys()))
 			while ( names.has( deshadowed ) ) {
 				deshadowed = `${name}$$${i++}`;
+				console.log('deshadowed', deshadowed);
 			}
+
+			console.log('final name deshadowed is', deshadowed);
 
 			declaration.name = deshadowed;
 		});

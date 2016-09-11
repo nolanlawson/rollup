@@ -1,9 +1,9 @@
-import { func as otherFunc } from './func';
+import { problematicFunc as otherFunc } from './problematicFunc';
 function innerFunc() {
-	function func () {
+	function problematicFunc () {
 		return otherFunc();
 	}
-	func();
+	return problematicFunc();
 }
 
 var res = innerFunc();
